@@ -90,7 +90,7 @@ class branchController extends Controller
         $sklad_id = DB::table('warehouses')
         ->where('user_id', $user)
         ->get();
-        
+        $sss = 1234;
         $sklad_id = $sklad_id[0]->id;
         $wait = new waiting();
         $wait->crm_id = $req->crm_id;
