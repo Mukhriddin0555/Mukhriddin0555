@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\branchController;
 use App\Http\Controllers\resseptionController;
+use App\Http\Controllers\sparepartmanagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,9 @@ Route::middleware(['sparepartmanager','auth'])->group(function(){
     Route::get('/sparepartmanager', function () {
         return view('sparepartmanager');
     })->middleware(['auth'])->name('sparepartmanager');
+    Route::get('/sparepartmanager/transfer/{column}/{sort}',[sparepartmanagerController::class, 'allTransfers'])->name('allTransfers');
+    Route::post('/sparepartmanager/transfered',[sparepartmanagerController::class, 'transfered'])->name('transfered');
+
     
 });
 //---------------------------------------------------------------------------------------------------

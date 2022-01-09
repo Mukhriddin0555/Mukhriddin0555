@@ -44,18 +44,6 @@ class resseptionController extends Controller
         $order->user_id = $user;
         $order->status_id = 1;
         $order->save();
-        //return redirect()->route('ressepshnOrders', ['crm_id', 'asc']);
-        //$sss = 12345;
-        //$sss1 = 20;
-        $sss = ['ww', 'qqq'];
-        //foreach ($req as $data)
-        $check = $req->options;
-        $kitob = " ";
-        foreach($check as $item)
-            $kitob .= "  "  . $item;
-        dd($kitob);
-
-        
-        //return view('resseption.sss', ['data' => $sss, 'data1' => $sss1]);
+        return redirect()->route('ressepshnOrders', ['crm_id', 'asc']);
     }
 }
