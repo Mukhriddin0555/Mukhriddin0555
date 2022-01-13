@@ -79,6 +79,7 @@ Route::middleware(['branchmanager','auth'])->group(function(){
     Route::get('/wait/{id}/edit',[branchController::class, 'editOneWait'])->name('editOneWait');
     Route::post('/wait/{id}/edit',[branchController::class, 'updateOneWait'])->name('updateOneWait');
 
+    Route::get('/waitings/selected',[branchController::class, 'selected'])->name('selected');
     //----------------------------------------------------------------------------------------------------------
     //продажа учун роут
     Route::get('/waitorder/{column}/{sort}',[branchController::class, 'allWaitOrder'])->name('allWaitOrder');

@@ -277,4 +277,7 @@ class branchController extends Controller
         return redirect()->route('myTransfers', ['sap_kod', 'asc']);
     }
 
+    public function selected(Request $req){
+        dd($req);
+    }
 }

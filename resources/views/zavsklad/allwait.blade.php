@@ -1,5 +1,23 @@
 <x-zavsklad.ojidaniye>
     <x-slot name="header">
+        <script type="text/javascript">  
+            function selects(){  
+                var ele=document.getElementsByName('selected[]');  
+                for(var i=0; i<ele.length; i++){  
+                    if(ele[i].type=='checkbox')  
+                        ele[i].checked=true;  
+                }  
+            }  
+            function deSelect(){  
+                var ele=document.getElementsByName('selected[]');  
+                for(var i=0; i<ele.length; i++){  
+                    if(ele[i].type=='checkbox')  
+                        ele[i].checked=false;  
+                      
+                }  
+            }             
+        </script> 
+        <form action="{{ route('selected')}}" id="selectedopt" method="GET"></form>
         @if ($errors->any())
         @foreach ($errors->all() as $error)
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -94,19 +112,31 @@
                                     <button type="submit"><img src="{{asset('storage/save_icon2.png')}}"  alt="Сохранить" class="w-4 h-4"></button>
                                 </th></form>
                                 <th class="p-1 pr-1">
-                                    <a href="{{ route('deliveredOneWait', $item->id)}}" title="Доставлено"><img src="{{asset('storage/dostavlen.png')}}"  alt="Доставлен" class="w-4 h-4"></a>
+                                    <x-link.delivered deld="{{ route('deliveredOneWait', $item->id)}}" />
                                 </th>
                                 <th class="p-1 pr-1">
-                                    <a href="{{ route('deleteOneWait', $item->id)}}" title="Удалить"><img src="{{asset('storage/delete_icon.png')}}"  alt="Удалить" class="w-4 h-4"></a>
+                                    <x-link.delete delete="{{ route('deleteOneWait', $item->id) }}" />
                                 </th>
                                 <th class="p-1 pr-1">
-                                    <a href="{{ route('oneWait', $item->id)}}" title="Подробнее"><img src="{{asset('storage/podrobnee.png')}}"  alt="Подробнее" class="w-4 h-4"></a>
+                                    <x-link.more more="{{ route('oneWait', $item->id)}}" />
+                                </th>
+                                <th class="p-1 pr-1">
+                                    <input type="checkbox" name="selected[]" form="selectedopt" value="{{$item->id}}">
                                 </th>
                             </tr>
+                            
                         @endforeach
                     </table>
+                    
                 </div>
             </div>
         </div>
+        <div class="flex justify-center">
+            <input type="button" onclick='selects()' value="выбрать все" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400"><br>
+            <input type="button" onclick='deSelect()' value="отменить все" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400">
+            <button form="selectedopt" type="submit" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400 ">Доставлен</button>
+            <br>
+        </div>
+        
     </x-slot>
 </x-zavsklad.ojidaniye>
