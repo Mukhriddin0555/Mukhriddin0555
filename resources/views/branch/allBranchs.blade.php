@@ -8,6 +8,7 @@
                         <th class="p-2 pr-7"><a href="{{ route('allBranchs', ['Kod', 'asc'])}}">Код филиала</a></th>
                         <th class="p-2 pr-7"><a href="{{ route('allBranchs', ['name', 'asc'])}}">Регион</a></th>
                         <th class="p-2 pr-7"><a href="{{ route('allBranchs', ['zavskladsurname', 'asc'])}}">Зав. склад</a></th>
+                        <th class="p-2 pr-7"><a href="{{ route('allBranchs', ['filialmanagersurname', 'asc'])}}">Упр. филиала</a></th>
                         <th class="p-2 pr-7"><a href="{{ route('allBranchs', ['managersurname', 'asc'])}}">Менеджер</a></th>
                         <th class="p-2 pr-7"></th>
                         @foreach ($data as $item)
@@ -29,10 +30,18 @@
                                     @endif
                                 </td>
                                 <td class="p-2 pr-7">
+                                    @if ($item->filialmanagersurname && $item->filialmanagerlastname)
+                                    {{$item->filialmanagersurname}} {{$item->filialmanagerlastname}}
+                                    @else
+                                     упр филиала не привязан
+                                    @endif
+                                    
+                                </td>
+                                <td class="p-2 pr-7">
                                     @if ($item->managersurname && $item->managerlastname)
                                     {{$item->managersurname}} {{$item->managerlastname}}
                                     @else
-                                     зав. склад не привязан
+                                     Менеджер не привязан
                                     @endif
                                     
                                 </td>

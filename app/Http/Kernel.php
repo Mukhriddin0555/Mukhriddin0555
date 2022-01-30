@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\admin;
 use App\Http\Middleware\branchmanager;
+use App\Http\Middleware\branchUpr;
 use App\Http\Middleware\director;
 use App\Http\Middleware\manager;
 use App\Http\Middleware\resseption;
@@ -75,5 +76,6 @@ class Kernel extends HttpKernel
         'sparepartmanager' => sparepartmanager::class,
         'branchmanager' => branchmanager::class,
         'resseption' => resseption::class,
+        'branch-upr' => branchUpr::class,
     ];
 }

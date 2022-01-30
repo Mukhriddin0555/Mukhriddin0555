@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\resseptionOrders;
+use DateTime;
 use App\Models\status;
-use App\Models\transfer;
 use App\Models\waiting;
+use App\Models\transfer;
+use App\Models\historyWait;
 use Illuminate\Http\Request;
+use App\Models\resseptionOrders;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -77,6 +79,12 @@ class branchController extends Controller
         return $year . '-' . $month . '-' . $day;
 
     }
+    function validateDate($date, $format = 'Y-m-d')
+    {
+    $d = DateTime::createFromFormat($format, $date);
+    // The Y ( 4 digits year ) returns TRUE for any integer with any number of digits so changing the comparison from == to === fixes the issue.
+    return $d && $d->format($format) === $date;
+    }
     public function addNewWait(Request $req)
     {   
         $req->validate([
@@ -90,7 +98,6 @@ class branchController extends Controller
         $sklad_id = DB::table('warehouses')
         ->where('user_id', $user)
         ->get();
-        $sss = 1234;
         $sklad_id = $sklad_id[0]->id;
         $wait = new waiting();
         $wait->crm_id = $req->crm_id;
@@ -105,8 +112,11 @@ class branchController extends Controller
         if(isset($req->order)){
             $wait->order = $req->order;
         }
-        $wait->save();
+        if($this->validateDate($date)){
+            $wait->save();
+        }
         return redirect()->route('allWait', ['crm_id', 'asc']);
+        
     }
     public function editOneWait($id)
     {   //бу функцияни обработка килиш кере  
@@ -277,7 +287,30 @@ class branchController extends Controller
         return redirect()->route('myTransfers', ['sap_kod', 'asc']);
     }
 
-    public function selected(Request $req){
-        dd($req);
+    public function selecteddelivered(Request $req){
+        foreach ($req->selected as $item => $value){
+            $onewait = waiting::find($value);
+            $onewait->status_id = 2;
+            $onewait->save();
+        }
+        
+        return redirect()->route('allWait', ['crm_id', 'asc']);
+    }
+    public function selecteddelete(Request $req){
+        
+        foreach ($req->selected as $item => $value){
+            $onewait = waiting::find($value);
+            $history = new historyWait();
+            $history->data = $onewait->data;
+            $history->crm_id = $onewait->crm_id;
+            $history->sap_kod = $onewait->sap_kod;
+            $history->how = $onewait->how;
+            $history->order = $onewait->order;
+            $history->warehouse_id = $onewait->warehouse_id;
+            $history->status_id = $onewait->status_id;
+            $history->save();
+            $onewait->delete();
+        }
+        return redirect()->route('allWait', ['crm_id', 'asc']);
     }
 }

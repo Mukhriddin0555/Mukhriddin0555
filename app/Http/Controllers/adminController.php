@@ -136,7 +136,16 @@ class adminController extends Controller
         $branch = DB::table('warehouses')
         ->leftJoin('users as zavsklad', 'warehouses.user_id', '=', 'zavsklad.id')
         ->leftJoin('users as manager', 'warehouses.manager_id', '=', 'manager.id')
-        ->select('warehouses.*', 'zavsklad.surname as zavskladsurname','zavsklad.lastname as zavskladlastname', 'manager.surname as managersurname','manager.lastname as managerlastname')
+        ->leftJoin('users as filialmanager', 'warehouses.branchmanager_id', '=', 'filialmanager.id')
+        ->select(
+            'warehouses.*', 
+            'zavsklad.surname as zavskladsurname',
+            'zavsklad.lastname as zavskladlastname', 
+            'manager.surname as managersurname',
+            'manager.lastname as managerlastname',
+            'filialmanager.surname as filialmanagersurname',
+            'filialmanager.lastname as filialmanagerlastname'
+            )
         ->orderBy($column, $sort)
         ->get();
         return view('branch.allBranchs', ['data' => $branch]);
@@ -183,7 +192,12 @@ class adminController extends Controller
         ->join('users', 'roles.id', '=', 'users.role_id')
         ->where('role', 'zavsklad')
         ->get();
-        return view('branch.newBranch', ['data1' => $manager, 'data2' => $zavsklad]);
+        $branchmanager = DB::table('roles')
+        ->join('users', 'roles.id', '=', 'users.role_id')
+        ->where('role', 'branchmanager')
+        ->get();
+
+        return view('branch.newBranch', ['data1' => $manager, 'data2' => $zavsklad, 'data3' => $branchmanager]);
         //dd($zavsklad);
     }
     public function addNewBranch(Request $req)
@@ -202,6 +216,7 @@ class adminController extends Controller
         $branch->name = $req->name;
         $branch->user_id = $req->user_id;
         $branch->manager_id = $req->manager_id;
+        $branch->branchmanager_id = $req->upr_id;
         $branch->adress = $req->adress;
         $branch->location = $req->location;
         $branch->save();
@@ -219,7 +234,12 @@ class adminController extends Controller
         ->join('users', 'roles.id', '=', 'users.role_id')
         ->where('role', 'zavsklad')
         ->get();
-        return view('branch.editOneBranch', ['data1' => $manager, 'data2' => $zavsklad, 'data3' => $branch]);
+        $branchmanager = DB::table('roles')
+        ->join('users', 'roles.id', '=', 'users.role_id')
+        ->where('role', 'branchmanager')
+        ->get();
+
+        return view('branch.editOneBranch', ['data1' => $manager, 'data2' => $zavsklad, 'data3' => $branch, 'data4' => $branchmanager]);
     }
     public function updateOneBranch(Request $req, $id)
     {
@@ -238,6 +258,7 @@ class adminController extends Controller
         $branch->name = $req->name;
         $branch->user_id = $req->user_id;
         $branch->manager_id = $req->manager_id;
+        $branch->branchmanager_id = $req->upr_id;
         $branch->adress = $req->adress;
         $branch->location = $req->location;
         $branch->save();

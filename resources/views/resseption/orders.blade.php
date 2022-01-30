@@ -34,9 +34,6 @@
                 <input name="how" value="1" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-last-name">
               </div>
             </div>
-            <input type="checkbox" name="options[8]" value="Politics"/> Politics<br/>
-    <input type="checkbox" name="options[3]" value="Movies"/> Movies<br/>
-    <input type="checkbox" name="options[9]" value="World "/> World<br/>
             <button type="submit" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400 ">Сохранить</button>
           </form>
           <div class="py-2">

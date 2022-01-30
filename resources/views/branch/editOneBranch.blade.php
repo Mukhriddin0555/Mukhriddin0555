@@ -60,6 +60,20 @@
                   </div>
                 </div>              
               </div>
+              <div class="flex flex-wrap -mx-3 mb-2">
+                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                  <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">
+                    Упр. филиала
+                  </label>
+                  <div class="relative">
+                    <select name="upr_id" class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+                      @foreach ($data4 as $data)
+                          <option value="{{ $data->id}}">{{ $data->surname}} {{ $data->lastname}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                </div>              
+              </div>
             <div class="flex flex-wrap -mx-3 mb-2">
               <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-state">

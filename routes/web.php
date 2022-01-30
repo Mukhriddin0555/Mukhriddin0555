@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\branchController;
+use App\Http\Controllers\FilialManagerController;
 use App\Http\Controllers\resseptionController;
 use App\Http\Controllers\sparepartmanagerController;
 
@@ -48,6 +49,19 @@ Route::middleware(['sparepartmanager','auth'])->group(function(){
     
 });
 //---------------------------------------------------------------------------------------------------
+//роль для управляющего филиала
+Route::middleware(['branch-upr','auth'])->group(function(){
+    //роль менеджера по запчастям
+    Route::get('/branchfilmanager', function () {
+        return view('branchfilmanager');
+    })->middleware(['auth'])->name('branchfilmanager');
+    Route::get('/filial/waitorders/{column}/{sort}',[FilialManagerController::class, 'waitorders'])->name('waitorders');
+    Route::get('/filial/resseptionorders/{column}/{sort}',[FilialManagerController::class, 'resseptionorders'])->name('resseptionorders');
+    
+    
+});
+
+//---------------------------------------------------------------------------------------------------
 Route::middleware(['resseption','auth'])->group(function(){
     //роль рессепшна видеть свои заказы. фильтрация + добавление заказов пост 3 та линк
     Route::get('/resseption', function () {
@@ -79,7 +93,8 @@ Route::middleware(['branchmanager','auth'])->group(function(){
     Route::get('/wait/{id}/edit',[branchController::class, 'editOneWait'])->name('editOneWait');
     Route::post('/wait/{id}/edit',[branchController::class, 'updateOneWait'])->name('updateOneWait');
 
-    Route::get('/waitings/selected',[branchController::class, 'selected'])->name('selected');
+    Route::get('/waitings/selected1',[branchController::class, 'selecteddelivered'])->name('selecteddelivered');
+    Route::get('/waitings/selected2',[branchController::class, 'selecteddelete'])->name('selecteddelete');
     //----------------------------------------------------------------------------------------------------------
     //продажа учун роут
     Route::get('/waitorder/{column}/{sort}',[branchController::class, 'allWaitOrder'])->name('allWaitOrder');

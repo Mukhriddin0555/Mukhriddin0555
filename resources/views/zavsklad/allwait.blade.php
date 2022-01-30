@@ -17,7 +17,7 @@
                 }  
             }             
         </script> 
-        <form action="{{ route('selected')}}" id="selectedopt" method="GET"></form>
+        <form id="selectedopt" method="GET"></form>
         @if ($errors->any())
         @foreach ($errors->all() as $error)
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -134,7 +134,8 @@
         <div class="flex justify-center">
             <input type="button" onclick='selects()' value="выбрать все" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400"><br>
             <input type="button" onclick='deSelect()' value="отменить все" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400">
-            <button form="selectedopt" type="submit" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400 ">Доставлен</button>
+            <button form="selectedopt" formaction="{{ route('selecteddelivered')}}" type="submit" formmethod="get" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400 ">Доставлен</button>
+            <button form="selectedopt"  formaction="{{ route('selecteddelete')}}" type="submit" formmethod="get" class="bg-green-200 rounded m-3 p-3 hover:bg-green-400 ">Удалить</button>
             <br>
         </div>
         
